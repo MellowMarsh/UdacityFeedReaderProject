@@ -31,7 +31,7 @@ $(function () {
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
          */
-        it('URL not empty', function () {
+        it('each feed has a url that is defined and the url is not empty', function () {
             allFeeds.forEach(function (feed) {
                 expect(feed.url).toBeDefined();
                 expect(feed.url.length).not.toBe('');
@@ -43,17 +43,17 @@ $(function () {
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
-        it('Feed Name Defined ', () => {
-            allFeeds.forEach((feed) => {
+        it('feed name is defined and not empty ', function(){
+            allFeeds.forEach(function (feed) {
                 expect(feed.name).toBeDefined();
-                expect(feed.name.length).not.toBe(0)
+                expect(feed.name.length).not.toBe(0);
             });
         });
     });
 
 
     /* TODO: Write a new test suite named "The menu" */
-    describe('The Menu', () => {
+      describe('The menu', function () {
 
 
         /* TODO: Write a test that ensures the menu element is
@@ -63,7 +63,7 @@ $(function () {
          */
         var body = document.body;
         var menuIcon = document.querySelector(".menu-icon-link");
-        it('Menu Hidden ', function () {
+        it('Menu hidden ', function () {
             expect(body.className).toContain('menu-hidden')
         });
 
@@ -72,7 +72,7 @@ $(function () {
          * should have two expectations: does the menu display when
          * clicked and does it hide when clicked again.
          */
-        it('menu display when Clicked and hide when clicked again', () => {
+        it('menu display when Clicked and hide when clicked again', function () {
             menuIcon.click();
             expect(body.className).not.toContain('menu-hidden');
             menuIcon.click();
@@ -81,61 +81,47 @@ $(function () {
 
     });
     /* TODO: Write a new test suite named "Initial Entries" */
-    describe('Initial Entries', () => {
+    describe('Initial Entries', function() {
+
         /* TODO: Write a test that ensures when the loadFeed
          * function is called and completes its work, there is at least
          * a single .entry element within the .feed container.
          * Remember, loadFeed() is asynchronous so this test will require
          * the uses of Jasmine's beforeEach and asynchronous done() function.
          */
+         beforeEach(function(done) {
+             loadFeed(0, function(){
+             done();
+           });
+           });
 
-        beforeEach((done) => {
-            loadFeed(0, () => {
-                done();
-            });
-        });
-
-
-        it("there is at least a single .entry withing .feed after loadFeed() is called", ((done) => {
-            var numberEntries = document.querySelector(".feed").getElementsByClassName("entry").length;
-            expect(numberEntries).toBeGreaterThan(0);
-            done();
-        }));
-
-
-        it("an entry has a link starting with 'http(s)://'", ((done) => {
-            var entries = document.querySelector(".feed").getElementsByClassName("entry-link");
-            for (var i = 0; i < entries.length; i++) {
-                expect(entries[i].href).toMatch(/^(http|https):\/\//);
-            }
-            done();
-        }));
-    });
+           it('feed container has at least one entry', function(){
+             var numEntry = document.querySelector(".feed").getElementsByClassName("entry").length;
+             expect(numEntry).toBeGreaterThan(0);
+           });
+         });
     /* TODO: Write a new test suite named "New Feed Selection" */
-    describe('New Feed Selection', () => {
+    describe('New Feed Selection', function() {
         /* TODO: Write a test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-
-        var initFeedSelection;
-        beforeEach((done) => {
-            loadFeed(0, () => {
-                initFeedSelection = document.querySelector(".feed").innerHTML;
-
-                loadFeed(1, () => {
+        var firstFeedSel;
+        beforeEach(function (done) {
+            loadFeed(1,function(){
+                firstFeedSel = document.querySelector(".feed").innerHTML;
+                loadFeed(2, function() {
                     done();
                 });
             });
         });
-        it("the content changes by loadFeed()", ((done)=> {
-            var newFeedSelection = document.querySelector(".feed").innerHTML;
-            expect(initFeedSelection).not.toBe(newFeedSelection);
-            done();
-        }));
+        it('the content changes by loadFeed()', function () {
+            var newFeedSel = document.querySelector(".feed").innerHTML;
+            expect(firstFeedSel).toBeDefined();
+            expect(newFeedSel).toBeDefined();
+            expect(firstFeedSel).not. toBe(newFeedSel);
+        });
 
-
-    })
-
+    });
 
 }());
