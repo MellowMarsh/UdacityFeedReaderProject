@@ -1,10 +1,10 @@
 # Udacity Feed Reader Project-FEND 
 
 # Goals:
-This project uses jasmine to test the functionality of a feed reader website. 
+This project uses jasmine to test the a feed reader website. 
 
 ## Instructions:
-To view the feedreader website download all the files and open index.html in your browser.
+To view the feedreader website download all the files and open index.html in your favorite browser.
 
 # Tests Covered:
 RSS Feeds:
